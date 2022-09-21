@@ -87,4 +87,8 @@ public class HourlyEmployee
   public int hashCode() {
     return Objects.hash(super.hashCode(), getRate(), getHours());
   }
+
+
+
 }
+
