@@ -9,8 +9,9 @@
 package com.javatunes.product;
 
 import java.util.Collection;
+import java.util.Collections;
 
-public class Order {
+public class Order  {
   private String id;
   
   public Order(String id) {
@@ -22,8 +23,12 @@ public class Order {
    * get the items from the cart and iterate over them, print each item's product code
    * get cart total and print
    */
-  public void processCart(Object reference_to_cart) {
-    
+  public void processCart(ShoppingCart<? extends Product> reference_to_cart) {
+    System.out.println("Order ID: " + getId());
+    for(Product product: reference_to_cart.allItems()){
+      System.out.println(product);
+    }
+    System.out.println(reference_to_cart.total());
   }
   
   public String getId() {
