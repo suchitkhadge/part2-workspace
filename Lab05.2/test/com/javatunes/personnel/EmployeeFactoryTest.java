@@ -1,6 +1,8 @@
 package com.javatunes.personnel;
 
 import static org.junit.Assert.*;
+
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
@@ -52,6 +54,11 @@ public class EmployeeFactoryTest {
    */
   @Test
   public void testCreateEmployeeSalaried() {
+    SalariedEmployee emp = (SalariedEmployee) EmployeeFactory.createEmployee(seMap);
+    assertEquals("Jackie", emp.getName());
+    assertEquals(Date.valueOf("1990-08-24"), emp.getHireDate());
+//    assertEquals(50000.0, emp.getSalary().doubleValue());
+    assertEquals(50_000.0, emp.getSalary(), 0.0001);
     // TODO
   }
   
@@ -60,6 +67,13 @@ public class EmployeeFactoryTest {
    */
   @Test
   public void testCreateEmployeeHourly() {
+    HourlyEmployee emp = (HourlyEmployee) EmployeeFactory.createEmployee(heMap);
+    assertEquals("Jackie", emp.getName());
+    assertEquals(Date.valueOf("1990-08-24"), emp.getHireDate());
+    assertEquals(50_000.0, emp.getRate(), 0.0001);
+    assertEquals(40.0, emp.getHours(), 0.0001);
+
+
     // TODO
   }
   
@@ -69,6 +83,16 @@ public class EmployeeFactoryTest {
    */
   @Test
   public void testCreateEmployeeInvalidTypeThrowsIllegalArgumentException() {
+
+    try{
+    Map<String, String> invalidMap = new HashMap<>(seMap);
+    EmployeeFactory.createEmployee(invalidMap);
+    fail("Should have thrown an IllegalArgumentException");
     // TODO
   }
-}
+    catch (IllegalArgumentException e){
+
+    }
+//    assertNotEquals("Invalid type","SE");
+    assertNotEquals("Invalid type","HE" );
+}}
