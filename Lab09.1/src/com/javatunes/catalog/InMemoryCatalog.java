@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class InMemoryCatalog implements Catalog {
 	
@@ -41,22 +43,35 @@ public class InMemoryCatalog implements Catalog {
 	@Override
 	public MusicItem findById(Long id) {
 		// declare return value
-		MusicItem result = null;
+		return catalogData
+				.stream()
+				.filter((item) -> item.getId().equals(id))
+				.findFirst()
+				.orElse(null);
 
-		// iterate through the catalog, looking for an ID match
+/*		// iterate through the catalog, looking for an ID match
 		for (MusicItem item : catalogData) {
 			if (item.getId().equals(id)) {
 				result = item;    // assign to return value
 				break;            // found it - stop looping
 			}
 		}
-		return result;
+		return result;*/
 	}		
 
 	@Override
 	public Collection<MusicItem> findByKeyword(String keyword) {
+
 		// declare return value
-		Collection<MusicItem> result = new ArrayList<>();
+		String lowerCaseKeyword = keyword.toLowerCase();
+		return catalogData
+				.stream()
+				.filter((item) -> item.getTitle().toLowerCase().contains(lowerCaseKeyword)
+				|| item.getArtist().toLowerCase().contains(lowerCaseKeyword))
+				.collect(Collectors.toList());
+
+
+	/*	Collection<MusicItem> result = new ArrayList<>();
 
 		// remove case sensitivity
 		keyword = keyword.toLowerCase();
@@ -68,7 +83,7 @@ public class InMemoryCatalog implements Catalog {
 				result.add(item);
 			}
 		}
-		return result;
+		return result;*/
 	}
 	
 	@Override
